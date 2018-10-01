@@ -12,12 +12,14 @@
       if (!msg)
         return false;
 
-      if (msg.name === 'resize') {
-        window.parent.postMessage({
-          sentinel: 'amp',
-          type: 'embed-size',
-          height: msg.data.height
-        }, '*');
+      if (msg.name === 'resize' || msg.name === 'rendered' || msg.name === 'fakeScroll') {
+        setTimeout(function () {
+          window.parent.postMessage({
+            sentinel: 'amp',
+            type: 'embed-size',
+            height: document.body.scrollHeight
+          }, '*');
+        }, 10);
       }
     }
   }
